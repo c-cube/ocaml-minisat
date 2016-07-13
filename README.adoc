@@ -1,0 +1,3 @@
+= Minisat
+
+Bindings to Minisat-C-1.14.1, with the solver included
