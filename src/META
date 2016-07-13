@@ -1,0 +1,11 @@
+# OASIS_START
+# DO NOT EDIT (digest: 207f0c5db8178e00a52ff5cd89762478)
+version = "0.0.1"
+description = "Bindings to Minisat"
+archive(byte) = "minisat.cma"
+archive(byte, plugin) = "minisat.cma"
+archive(native) = "minisat.cmxa"
+archive(native, plugin) = "minisat.cmxs"
+exists_if = "minisat.cma"
+# OASIS_STOP
+
