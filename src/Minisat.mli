@@ -10,9 +10,7 @@ type 'a printer = Format.formatter -> 'a -> unit
 
 module Lit : sig
   type t = private int
-  (** Minisat encoding is:
-      [2*n] is positive literal [n]
-      [2*n+1] is negative literal [n] *)
+  (** Some representation of literals that will be accepted by minisat *)
 
   val make : int -> t
   val neg : t -> t

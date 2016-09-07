@@ -53,11 +53,8 @@ CAMLprim value caml_minisat_simplify(value block)
   CAMLreturn (Val_bool(res));
 }
 
-// conversion from pos/neg to the Minisat convention
-static inline lit lit_of_int(int i)
-{
-  return i < 0 ? lit_neg(toLit(-i)) : toLit(i);
-}
+// we now directly use the minisat convention!
+static inline lit lit_of_int(int i) { return i; }
 
 CAMLprim value caml_minisat_solve(value block, value v_lits)
 {

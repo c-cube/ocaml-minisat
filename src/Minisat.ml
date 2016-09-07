@@ -7,7 +7,7 @@ type 'a printer = Format.formatter -> 'a -> unit
 
 module Lit = struct
   type t = int
-  let make n = n+n
+  let make n = assert (n>0); n+n
   let neg n = n lxor 1
   let abs n = n land (max_int - 1)
   let sign n = if n land 1 =0 then true else false
