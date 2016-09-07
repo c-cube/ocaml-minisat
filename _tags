@@ -25,4 +25,4 @@ true: annot, bin_annot
 <src>: include
 <src/minisat>: include
 
-true: bin_annot, safe_string, warn(+a-4-44-58), optimize(3), color(always)
+true: bin_annot, safe_string, warn(+a-4-44-58), optimize(3), color(always), inline(30)
