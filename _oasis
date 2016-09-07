@@ -1,4 +1,4 @@
-OASISFormat: 0.2
+OASISFormat: 0.4
 Name: ocaml-minisat
 Version: 0.0.1
 LicenseFile: LICENSE
@@ -7,6 +7,7 @@ Authors: Simon Cruanes
 BuildTools: ocamlbuild
 Plugins: DevFiles (0.2), META (0.2)
 Synopsis: Bindings to Minisat
+AlphaFeatures: ocamlbuild_more_args
 
 Library minisat
   Path: src
@@ -15,3 +16,18 @@ Library minisat
   CSources: libminisat_stubs.c, vec.h, solver.h, solver.c
   CCOpt: -fPIC
 
+Test test1
+  Command:      ./tests/test1.ml
+  TestTools:
+  Run$:         flag(tests)
+
+Document minisat
+  Title:                Minisat docs
+  Type:                 ocamlbuild (0.3)
+  BuildTools+:          ocamldoc
+  Build$:               flag(docs)
+  Install:              true
+  XOCamlbuildPath:      .
+  XOCamlbuildExtraArgs:
+    "-docflags '-colorize-code -short-functors -charset utf-8'"
+  XOCamlbuildLibraries: minisat

@@ -5,6 +5,7 @@ build: [
     ["./configure"
         "--prefix=%{prefix}%"
         "--docdir=%{doc}%"
+        "--disable-docs"
     ]
     [make "build"]
 ]
