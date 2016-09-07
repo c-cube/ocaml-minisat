@@ -5,9 +5,20 @@
 
 type t
 
-type lit = int
+module Lit : sig
+  type t = private int
+  (** Minisat encoding is:
+      [2*n] is positive literal [n]
+      [2*n+1] is negative literal [n] *)
 
-type assumptions = lit array
+  val make : int -> t
+  val neg : t -> t
+  val abs : t -> t
+  val sign : t -> bool
+  val to_int : t -> int
+end
+
+type assumptions = Lit.t array
 
 module Raw : sig
   external create : unit -> t = "caml_minisat_new"
@@ -16,7 +27,7 @@ module Raw : sig
   (* the [add_clause] functions return [false] if the clause
      immediately makes the problem unsat *)
 
-  external add_clause_a : t -> lit array -> bool = "caml_minisat_add_clause_a"
+  external add_clause_a : t -> Lit.t array -> bool = "caml_minisat_add_clause_a"
 
   external simplify : t -> bool = "caml_minisat_simplify"
 
@@ -28,7 +39,7 @@ module Raw : sig
 
   external set_nvars : t -> int -> unit = "caml_minisat_set_nvars"
 
-  external value : t -> lit -> int = "caml_minisat_value"
+  external value : t -> Lit.t -> int = "caml_minisat_value"
 
   external set_verbose: t -> int -> unit = "caml_minisat_set_verbose"
 end
@@ -37,10 +48,10 @@ val create : unit -> t
 
 exception Unsat
 
-val add_clause_l : t -> lit list -> unit
+val add_clause_l : t -> Lit.t list -> unit
 (** @raise Unsat if the problem is unsat *)
 
-val add_clause_a : t -> lit array -> unit
+val add_clause_a : t -> Lit.t array -> unit
 (** @raise Unsat if the problem is unsat *)
 
 val simplify : t -> unit
@@ -54,6 +65,6 @@ type value =
   | V_true
   | V_false
 
-val value : t -> lit -> value
+val value : t -> Lit.t -> value
 
 val set_verbose: t -> int -> unit

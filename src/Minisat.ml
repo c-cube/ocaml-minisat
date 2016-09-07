@@ -3,19 +3,27 @@
 
 type t
 
-type lit = int
 
-type assumptions = lit array
+module Lit = struct
+  type t = int
+  let make n = n+n
+  let neg n = n lxor 1
+  let abs n = n land (max_int - 1)
+  let sign n = if n land 1 =0 then true else false
+  let to_int n = n lsr 1
+end
+
+type assumptions = Lit.t array
 
 module Raw = struct
   external create : unit -> t = "caml_minisat_new"
   external delete : t -> unit = "caml_minisat_delete"
 
-  external add_clause_a : t -> lit array -> bool = "caml_minisat_add_clause_a"
+  external add_clause_a : t -> Lit.t array -> bool = "caml_minisat_add_clause_a"
 
   external simplify : t -> bool = "caml_minisat_simplify"
 
-  external solve : t -> lit array -> bool = "caml_minisat_solve"
+  external solve : t -> Lit.t array -> bool = "caml_minisat_solve"
 
   external nvars : t -> int = "caml_minisat_nvars"
   external nclauses : t -> int = "caml_minisat_nclauses"
@@ -23,7 +31,7 @@ module Raw = struct
 
   external set_nvars : t -> int -> unit = "caml_minisat_set_nvars"
 
-  external value : t -> lit -> int = "caml_minisat_value"
+  external value : t -> Lit.t -> int = "caml_minisat_value"
 
   external set_verbose: t -> int -> unit = "caml_minisat_set_verbose"
 end
