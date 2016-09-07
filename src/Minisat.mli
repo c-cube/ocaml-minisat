@@ -4,6 +4,9 @@
 (** {1 Bindings to Minisat} *)
 
 type t
+(** An instance of minisat (stateful) *)
+
+type 'a printer = Format.formatter -> 'a -> unit
 
 module Lit : sig
   type t = private int
@@ -16,6 +19,8 @@ module Lit : sig
   val abs : t -> t
   val sign : t -> bool
   val to_int : t -> int
+  val to_string : t -> string
+  val pp : t printer
 end
 
 type assumptions = Lit.t array
@@ -53,6 +58,8 @@ val add_clause_l : t -> Lit.t list -> unit
 
 val add_clause_a : t -> Lit.t array -> unit
 (** @raise Unsat if the problem is unsat *)
+
+val pp_clause : Lit.t list printer
 
 val simplify : t -> unit
 (** @raise Unsat if the problem is unsat *)

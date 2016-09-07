@@ -3,6 +3,7 @@
 
 type t
 
+type 'a printer = Format.formatter -> 'a -> unit
 
 module Lit = struct
   type t = int
@@ -11,6 +12,8 @@ module Lit = struct
   let abs n = n land (max_int - 1)
   let sign n = if n land 1 =0 then true else false
   let to_int n = n lsr 1
+  let to_string x = (if sign x then "" else "-") ^ string_of_int (to_int x)
+  let pp out x = Format.pp_print_string out (to_string x)
 end
 
 type assumptions = Lit.t array
@@ -49,6 +52,16 @@ let check_ret_ b =
 let add_clause_a s a = Raw.add_clause_a s a |> check_ret_
 
 let add_clause_l s lits = add_clause_a s (Array.of_list lits)
+
+let pp_clause out l =
+  Format.pp_print_string out "[@[<hv>";
+  let first = ref true in
+  List.iter
+    (fun x ->
+       if !first then first := false else Format.fprintf out ",@ ";
+       Lit.pp out x)
+    l;
+  Format.pp_print_string out "@]]"
 
 let simplify s = Raw.simplify s |> check_ret_
 
