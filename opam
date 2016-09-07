@@ -1,0 +1,21 @@
+opam-version: "1.2"
+author: "simon.cruanes@inria.fr"
+maintainer: "simon.cruanes@inria.fr"
+build: [
+    ["./configure"
+        "--prefix=%{prefix}%"
+        "--docdir=%{doc}%"
+    ]
+    [make "build"]
+]
+install: [
+    [make "install"]
+]
+remove: [
+    ["ocamlfind" "remove" "minisat"]
+]
+depends: ["ocamlfind"]
+tags: [ "minisat" "solver" "SAT" ]
+homepage: "https://github.com/c-cube/ocaml-minisat/"
+dev-repo: "https://github.com/c-cube/ocaml-minisat.git"
+bug-reports: "https://github.com/c-cube/ocaml-minisat/issues"
