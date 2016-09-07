@@ -112,7 +112,7 @@ CAMLprim value caml_minisat_value(value block, value v_lit)
   lit lit = lit_of_int(Int_val(v_lit));
 
   solver *s = get_solver(block);
-  lbool cur_val = s->assigns[lit_var(lit)];
+  lbool cur_val = s->model.ptr[lit_var(lit)];
 
   CAMLreturn (Val_int(cur_val));
 }
