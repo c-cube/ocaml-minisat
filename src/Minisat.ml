@@ -54,14 +54,14 @@ let add_clause_a s a = Raw.add_clause_a s a |> check_ret_
 let add_clause_l s lits = add_clause_a s (Array.of_list lits)
 
 let pp_clause out l =
-  Format.pp_print_string out "[@[<hv>";
+  Format.fprintf out "[@[<hv>";
   let first = ref true in
   List.iter
     (fun x ->
        if !first then first := false else Format.fprintf out ",@ ";
        Lit.pp out x)
     l;
-  Format.pp_print_string out "@]]"
+  Format.fprintf out "@]]"
 
 let simplify s = Raw.simplify s |> check_ret_
 
