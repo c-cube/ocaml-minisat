@@ -28,4 +28,11 @@ try Minisat.solve ~assumptions:[|l3|] s; assert false
 with Minisat.Unsat -> print_endline "ok!";; (* should fail *)
 print_endline "should succeed...";;
 Minisat.solve s;; (* should not fail *)
+l3, Minisat.value s l3, Minisat.value s (Minisat.Lit.neg l3);;
+assert (Minisat.value s l3 = Minisat.V_false);;
+assert (Minisat.value s (Minisat.Lit.neg l3) = Minisat.V_true);;
 print_endline "ok!";;
+print_endline "should succeed...";;
+let l2000 = Minisat.Lit.make 2000 ;;
+assert (Minisat.value s l2000 = Minisat.V_undef);;
+assert (Minisat.value s (Minisat.Lit.neg l2000) = Minisat.V_undef);;
