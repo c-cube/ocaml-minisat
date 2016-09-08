@@ -66,6 +66,7 @@ let pp_clause out l =
 let simplify s = Raw.simplify s |> check_ret_
 
 let solve ?(assumptions=[||]) s =
+  simplify s;
   Raw.solve s assumptions |> check_ret_
 
 type value =
