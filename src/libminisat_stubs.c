@@ -34,12 +34,18 @@ CAMLprim value caml_minisat_delete(value block)
 {
   CAMLparam1 (block);
 
+  // already cleaned?
+  if (*((solver**)(Data_custom_val(block)))==0) {
+    goto exit;
+  }
+
   solver *s = get_solver(block);
   solver_delete(s);
 
   // clear block content
-  memset(((solver**)(Data_custom_val(block))), 0, sizeof(solver*));
+  memset(Data_custom_val(block), 0, sizeof(solver*));
 
+exit:
   CAMLreturn (Val_unit);
 }
 
