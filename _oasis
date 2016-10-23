@@ -14,7 +14,7 @@ Library minisat
   Modules: Minisat
   CCLib:
   CSources: libminisat_stubs.c, vec.h, solver.h, solver.c
-  CCOpt: -fPIC
+  CCOpt: -fPIC -std=c99
 
 Test test1
   Command:      ./tests/test1.ml
