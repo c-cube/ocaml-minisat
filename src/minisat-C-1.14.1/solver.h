@@ -39,10 +39,10 @@ static const bool  false     = 0;
 typedef int                lit;
 typedef char               lbool;
 
-#ifdef _WIN32
-typedef signed __int64     uint64;   // compatible with MS VS 6.0
+#if defined(_MSC_VER) && (_MSC_VER < 1600) // before MS VS 6.0, stdint.h didn't exist
+typedef signed __int64     uint64_t;
 #else
-typedef unsigned long long uint64;
+#include <stdint.h>
 #endif
 
 static const int   var_Undef = -1;
@@ -79,8 +79,8 @@ extern void    solver_setnvars(solver* s,int n);
 
 struct stats_t
 {
-    uint64   starts, decisions, propagations, inspects, conflicts;
-    uint64   clauses, clauses_literals, learnts, learnts_literals, max_literals, tot_literals;
+    uint64_t   starts, decisions, propagations, inspects, conflicts;
+    uint64_t   clauses, clauses_literals, learnts, learnts_literals, max_literals, tot_literals;
 };
 typedef struct stats_t stats;
 
@@ -103,11 +103,11 @@ struct solver_t
 
     // activities
     double   var_inc;       // Amount to bump next variable with.
-    double   var_decay;     // INVERSE decay factor for variable activity: stores 1/decay. 
+    double   var_decay;     // INVERSE decay factor for variable activity: stores 1/decay.
     float    cla_inc;       // Amount to bump next clause with.
     float    cla_decay;     // INVERSE decay factor for clause activity: stores 1/decay.
 
-    vecp*    wlists;        // 
+    vecp*    wlists;        //
     double*  activity;      // A heuristic measurement of the activity of a variable.
     lbool*   assigns;       // Current values of variables.
     int*     orderpos;      // Index in variable order.

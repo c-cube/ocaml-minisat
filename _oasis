@@ -1,6 +1,6 @@
 OASISFormat: 0.4
 Name: ocaml-minisat
-Version: 0.0.1
+Version: 0.0.2
 LicenseFile: LICENSE
 License:     BSD-2-clause
 Authors: Simon Cruanes
@@ -14,7 +14,7 @@ Library minisat
   Modules: Minisat
   CCLib:
   CSources: libminisat_stubs.c, vec.h, solver.h, solver.c
-  CCOpt: -fPIC
+  CCOpt: -fPIC -std=c99
 
 Test test1
   Command:      ./tests/test1.ml
