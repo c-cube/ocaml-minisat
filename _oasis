@@ -16,8 +16,8 @@ Library minisat
   CSources: libminisat_stubs.c, vec.h, solver.h, solver.c
   CCOpt: -fPIC -std=c99
 
-Test test1
-  Command:      ./tests/test1.ml
+Test alltests
+  Command:      ocaml tests/test1.ml
   TestTools:
   Run$:         flag(tests)
 
