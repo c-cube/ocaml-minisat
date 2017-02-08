@@ -1,6 +1,6 @@
 OASISFormat: 0.4
 Name: ocaml-minisat
-Version: 0.0.2
+Version: 0.1
 LicenseFile: LICENSE
 License:     BSD-2-clause
 Authors: Simon Cruanes
