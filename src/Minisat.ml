@@ -5,6 +5,8 @@ type t
 
 type 'a printer = Format.formatter -> 'a -> unit
 
+let (|>) x f = f x
+
 module Lit = struct
   type t = int
   let make n = assert (n>0); n+n
