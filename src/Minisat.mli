@@ -10,12 +10,30 @@ type 'a printer = Format.formatter -> 'a -> unit
 
 module Lit : sig
   type t = private int
-  (** Some representation of literals that will be accepted by minisat *)
+  (** Some representation of literals that will be accepted by minisat.
+      {b NOTE} the representation used by minisat is not based on sign
+      but parity. Do not try to encode negative literals as negative
+      integers. *)
 
   val make : int -> t
+  (** [make n] creates the literal whose index is [n].
+      {b NOTE} [n] must be strictly positive. Use {!neg} to obtain
+      the negation of a literal. *)
+
   val neg : t -> t
+  (** Negation of a literal.
+      Invariant: [neg (neg x) = x] *)
+
   val abs : t -> t
+  (** Absolute value (removes negation if any). *)
+
   val sign : t -> bool
+  (** Sign: [true] if the literal is positive, [false] for a negated literal.
+      Invariants:
+      [sign (abs x) = true]
+      [sign (neg x) = not (sign x)]
+  *)
+
   val to_int : t -> int
   val to_string : t -> string
   val pp : t printer
