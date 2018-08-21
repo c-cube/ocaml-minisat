@@ -13,14 +13,13 @@ if [ -n "${OPAM_SWITCH}" ]; then
 fi
 eval `opam config env`
 
-opam install ocamlfind
+opam install dune ocamlfind
 
 export OCAMLRUNPARAM=b
 
-ocaml setup.ml -configure --enable-tests
-ocaml setup.ml -build
-ocaml setup.ml -test
+make build
+make test
 
-opam pin add minisat .
+opam pin add minisat . --yes
 opam remove minisat
 [ -z "`ocamlfind query minisat`" ] || (echo "It uninstalled fine!" && exit 1)
