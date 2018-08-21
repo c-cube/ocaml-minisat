@@ -1,20 +1,15 @@
 language: c
-sudo: false
-addons:
-  apt:
-    sources:
-    - avsm
-    packages:
-    - ocaml
-    - opam
-
-script: bash -ex .travis-ci.sh
+install: wget https://raw.githubusercontent.com/ocaml/ocaml-ci-scripts/master/.travis-docker.sh
+script: bash -ex .travis-docker.sh
+services:
+- docker
 env:
-  - OPAM_SWITCH=4.02.3
-  - OPAM_SWITCH=4.03.0
-  - OPAM_SWITCH=4.04.0
-  - OPAM_SWITCH=4.06.0
-  - OPAM_SWITCH=4.07.0
-cache:
-  directories:
-  - $HOME/.opam
+  global:
+  - PINS="minisat:."
+  - DISTRO="ubuntu-16.04"
+  matrix:
+  - PACKAGE="minisat" OCAML_VERSION="4.02.3"
+  - PACKAGE="minisat" OCAML_VERSION="4.03.0"
+  - PACKAGE="minisat" OCAML_VERSION="4.04.2"
+  - PACKAGE="minisat" OCAML_VERSION="4.06.0"
+  - PACKAGE="minisat" OCAML_VERSION="4.07.0"
