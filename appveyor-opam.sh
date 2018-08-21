@@ -42,14 +42,13 @@ case "$ocaml_system" in
 esac
 
 # Now, the actual opam install, build and test
-opam install ocamlfind
+opam install ocamlfind dune
 eval $(opam config env)
 
 cd "${APPVEYOR_BUILD_FOLDER}"
-ocaml setup.ml -configure --enable-tests
-ocaml setup.ml -build
-ocaml setup.ml -test
+make build
+make test
 
-opam pin add minisat .
+opam pin add minisat . --yes
 opam remove minisat
 [ -z "`ocamlfind query minisat`" ] || (echo "It uninstalled fine!" && exit 1)
