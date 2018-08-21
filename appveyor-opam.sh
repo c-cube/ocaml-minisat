@@ -49,6 +49,3 @@ cd "${APPVEYOR_BUILD_FOLDER}"
 make build
 make test
 
-opam pin add minisat . --yes
-opam remove minisat
-[ -z "`ocamlfind query minisat`" ] || (echo "It uninstalled fine!" && exit 1)
