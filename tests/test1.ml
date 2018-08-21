@@ -1,9 +1,5 @@
-#!/usr/bin/env ocaml
 
 print_endline "test1...";;
-
-#directory "_build/src";;
-#load "minisat.cma";;
 
 let s = Minisat.create();;
 let l1 = Minisat.Lit.make 1;;
@@ -36,3 +32,4 @@ print_endline "should succeed...";;
 let l2000 = Minisat.Lit.make 2000 ;;
 assert (Minisat.value s l2000 = Minisat.V_undef);;
 assert (Minisat.value s (Minisat.Lit.neg l2000) = Minisat.V_undef);;
+print_endline "ok!";;

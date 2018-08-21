@@ -8,6 +8,9 @@ clean:
 doc:
 	dune build @doc
 
+test:
+	dune runtest --force --no-buffer
+
 reindent:
 	@find src '(' -name '*.ml' -or -name '*.mli' ')' -print0 | xargs -0 echo "reindenting: "
 	@find src '(' -name '*.ml' -or -name '*.mli' ')' -print0 | xargs -0 ocp-indent -i
