@@ -5,6 +5,7 @@ maintainer: "simon.cruanes.2007@m4x.org"
 build: ["dune" "build" "-p" name]
 build-doc: ["dune" "build" "@doc" "-p" name]
 build-test: ["dune" "runtest"]
+license: "BSD-2-clause"
 depends: [
   "dune" {build}
   "odoc" {doc}
