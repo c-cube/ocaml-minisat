@@ -8,8 +8,7 @@ env:
   - PINS="minisat:."
   - DISTRO="ubuntu-16.04"
   matrix:
-  - PACKAGE="minisat" OCAML_VERSION="4.02.3"
-  - PACKAGE="minisat" OCAML_VERSION="4.03.0"
-  - PACKAGE="minisat" OCAML_VERSION="4.04.2"
-  - PACKAGE="minisat" OCAML_VERSION="4.06.0"
-  - PACKAGE="minisat" OCAML_VERSION="4.07.0"
+  - PACKAGE="minisat" OCAML_VERSION="4.03"
+  - PACKAGE="minisat" OCAML_VERSION="4.04"
+  - PACKAGE="minisat" OCAML_VERSION="4.06"
+  - PACKAGE="minisat" OCAML_VERSION="4.07"
