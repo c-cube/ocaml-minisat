@@ -1079,7 +1079,7 @@ bool   solver_solve(solver* s, lit* begin, lit* end)
             assume(s, *i);
             if (solver_propagate(s) == NULL)
                 break;
-            // falltrough
+            /* fallthrough */
         case -1: /* l_False */
             solver_canceluntil(s, 0);
             return false;
