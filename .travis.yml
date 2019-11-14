@@ -8,9 +8,20 @@ env:
   - PINS="minisat:."
   - DISTRO="ubuntu-16.04"
   - PACKAGE="minisat" 
-  matrix:
-  - OCAML_VERSION="4.03"
-  - OCAML_VERSION="4.04"
-  - OCAML_VERSION="4.06"
-  - OCAML_VERSION="4.07"
-  - OCAML_VERSION="4.09"
+matrix:
+  - env: OCAML_VERSION="4.03"
+    arch: amd64
+  - env: OCAML_VERSION="4.04"
+    arch: amd64
+  - env: OCAML_VERSION="4.06"
+    arch: amd64
+  - env: OCAML_VERSION="4.06"
+    arch: arm64
+  - env: OCAML_VERSION="4.07"
+    arch: amd64
+  - env: OCAML_VERSION="4.07"
+    arch: arm64
+  - env: OCAML_VERSION="4.09"
+    arch: amd64
+  - env: OCAML_VERSION="4.09"
+    arch: arm64
