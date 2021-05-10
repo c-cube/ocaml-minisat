@@ -2,6 +2,7 @@
 #include <caml/mlvalues.h>
 #include <caml/memory.h>
 #include <caml/alloc.h>
+#include <caml/threads.h>
 
 #include "string.h"
 #include "stdlib.h"
@@ -79,8 +80,10 @@ CAMLprim value caml_minisat_solve(value block, value v_lits)
   }
 
   // solve
+  caml_release_runtime_system();
   solver *s = get_solver(block);
   bool res = solver_solve(s, lits, lits+lits_size);
+  caml_acquire_runtime_system();
 
   free(lits);
 
