@@ -87,6 +87,8 @@ CAMLprim value caml_minisat_solve(value block, value v_lits)
   CAMLreturn (Val_bool(res));
 }
 
+#define SMALL_CLAUSE_SIZE 16
+
 CAMLprim value caml_minisat_add_clause_a(value block, value v_lits)
 {
   CAMLparam2 (block, v_lits);
@@ -94,8 +96,15 @@ CAMLprim value caml_minisat_add_clause_a(value block, value v_lits)
   // build an array out of [v_lits]
   size_t lits_size = Wosize_val(v_lits);
 
-  lit* lits = malloc(lits_size * sizeof(lit));
-  assert (lits_size == 0 || lits != NULL);
+  lit smallc[SMALL_CLAUSE_SIZE]; // for small clauses
+
+  lit* lits;
+  if (lits_size > SMALL_CLAUSE_SIZE) {
+    lits = malloc(lits_size * sizeof(lit));
+    assert (lits != NULL);
+  } else {
+    lits = smallc;
+  }
 
   for (size_t i = 0; i < lits_size; ++i)
   {
@@ -106,7 +115,9 @@ CAMLprim value caml_minisat_add_clause_a(value block, value v_lits)
   solver *s = get_solver(block);
   bool res = solver_addclause(s, lits, lits+lits_size);
 
-  free(lits);
+  if (lits_size > SMALL_CLAUSE_SIZE) {
+    free(lits);
+  }
 
   CAMLreturn (Val_bool(res));
 }
