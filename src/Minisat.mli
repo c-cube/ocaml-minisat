@@ -48,19 +48,19 @@ module Raw : sig
   (* the [add_clause] functions return [false] if the clause
      immediately makes the problem unsat *)
 
-  external add_clause_a : t -> Lit.t array -> bool = "caml_minisat_add_clause_a"
+  external add_clause_a : t -> Lit.t array -> bool = "caml_minisat_add_clause_a" [@@noalloc]
 
   external simplify : t -> bool = "caml_minisat_simplify"
 
   external solve : t -> assumptions -> bool = "caml_minisat_solve"
 
-  external nvars : t -> int = "caml_minisat_nvars"
-  external nclauses : t -> int = "caml_minisat_nclauses"
-  external nconflicts : t -> int = "caml_minisat_nconflicts"
+  external nvars : t -> int = "caml_minisat_nvars" [@@noalloc]
+  external nclauses : t -> int = "caml_minisat_nclauses" [@@noalloc]
+  external nconflicts : t -> int = "caml_minisat_nconflicts" [@@noalloc]
 
-  external set_nvars : t -> int -> unit = "caml_minisat_set_nvars"
+  external set_nvars : t -> int -> unit = "caml_minisat_set_nvars" [@@noalloc]
 
-  external value : t -> Lit.t -> int = "caml_minisat_value"
+  external value : t -> Lit.t -> int = "caml_minisat_value" [@@noalloc]
 
   external set_verbose: t -> int -> unit = "caml_minisat_set_verbose"
 end
