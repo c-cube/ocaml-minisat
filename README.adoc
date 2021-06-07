@@ -1,9 +1,8 @@
 = Minisat
 
-image:https://travis-ci.org/c-cube/ocaml-minisat.svg?branch=master["Build Status", link="https://travis-ci.org/c-cube/ocaml-minisat"]
-image:https://ci.appveyor.com/api/projects/status/t0g07849v8j2lmwc?svg=true["Appveyor", link="https://ci.appveyor.com/project/c-cube/ocaml-minisat"]
+image:https://github.com/c-cube/ocaml-minisat/actions/badge/main.yml/badge.svg["Build Status", link="https://github.com/c-cube/ocaml-minisat/actions/workflows/main.yml]
 
-Bindings to Minisat-C-1.14.1, with the solver included
+Bindings to Minisat-C-1.14.1, with the solver included.
 
 == Docs
 
