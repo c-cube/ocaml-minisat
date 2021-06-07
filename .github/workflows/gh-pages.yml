@@ -26,7 +26,7 @@ jobs:
         run: opam pin -n .
 
       - name: Depext
-        run: opam depext -yt redis redis-sync
+        run: opam depext -yt minisat
 
       - name: Deps
         run: opam install -d . --deps-only
