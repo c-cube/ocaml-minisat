@@ -1,3 +1,9 @@
+## 0.4
+
+- move to github actions for CI
+- perf: release runtime lock in `solve`
+- perf: fast path for `add_clause`
+- perf: annotate some C functions as `noalloc`
 
 ## 0.3
 
