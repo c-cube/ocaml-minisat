@@ -810,6 +810,7 @@ static lbool solver_search(solver* s, int nof_conflicts, int nof_learnts)
             s->stats.conflicts++; conflictC++;
             if (solver_dlevel(s) == s->root_level){
                 veci_delete(&learnt_clause);
+                // FIXME: compute unsat core
                 return l_False;
             }
 
@@ -886,6 +887,7 @@ solver* solver_new(void)
     veci_new(&s->tagged);
     veci_new(&s->stack);
     veci_new(&s->model);
+    veci_new(&s->unsat_core);
 
     // initialize arrays
     s->wlists    = 0;
@@ -1069,7 +1071,9 @@ bool   solver_solve(solver* s, lit* begin, lit* end)
     lbool   status        = l_Undef;
     lbool*  values        = s->assigns;
     lit*    i;
-    
+
+    veci_resize(&s->unsat_core, 0);
+
     //printf("solve: "); printlits(begin, end); printf("\n");
     for (i = begin; i < end; i++){
         switch (lit_sign(*i) ? -values[lit_var(*i)] : values[lit_var(*i)]){
@@ -1081,6 +1085,7 @@ bool   solver_solve(solver* s, lit* begin, lit* end)
                 break;
             /* fallthrough */
         case -1: /* l_False */
+            // FIXME: compute unsat core
             solver_canceluntil(s, 0);
             return false;
         }
