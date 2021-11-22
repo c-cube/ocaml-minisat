@@ -155,6 +155,23 @@ CAMLprim value caml_minisat_value(value block, value v_lit)
   CAMLreturn (Val_int(ret));
 }
 
+/* size of unsat core */
+CAMLprim value caml_minisat_core_size(value block) {
+  CAMLparam1(block);
+  solver *s = get_solver(block);
+  int n = s->unsat_core.size;
+  CAMLreturn(Int_val(n));
+}
+
+/* get unsat-core idx-th element */
+CAMLprim value caml_minisat_core_get(value block, value idx) {
+  CAMLparam2(block, idx);
+  solver *s = get_solver(block);
+  int i = Val_int(idx);
+  assert(i < s->unsat_core.size);
+  int lit = s->unsat_core.ptr[i];
+  CAMLreturn(Int_val(lit));
+}
 
 CAMLprim value caml_minisat_set_verbose(value block, value v_lev)
 {

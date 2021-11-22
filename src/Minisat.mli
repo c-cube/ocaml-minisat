@@ -61,6 +61,8 @@ module Raw : sig
   external set_nvars : t -> int -> unit = "caml_minisat_set_nvars" [@@noalloc]
 
   external value : t -> Lit.t -> int = "caml_minisat_value" [@@noalloc]
+  external unsat_core_size : t -> int = "caml_minisat_core_size" [@@noalloc]
+  external unsat_core_get : t -> int -> Lit.t= "caml_minisat_core_get" [@@noalloc]
 
   external set_verbose: t -> int -> unit = "caml_minisat_set_verbose"
 end
@@ -89,5 +91,8 @@ type value =
   | V_false
 
 val value : t -> Lit.t -> value
+
+val unsat_core : t -> assumptions
+(** Subset of assumptions responsible for a UNSAT result *)
 
 val set_verbose: t -> int -> unit

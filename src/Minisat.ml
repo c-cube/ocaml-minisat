@@ -35,6 +35,8 @@ module Raw = struct
   external set_nvars : t -> int -> unit = "caml_minisat_set_nvars" [@@noalloc]
 
   external value : t -> Lit.t -> int = "caml_minisat_value" [@@noalloc]
+  external unsat_core_size : t -> int = "caml_minisat_core_size" [@@noalloc]
+  external unsat_core_get : t -> int -> Lit.t= "caml_minisat_core_get" [@@noalloc]
 
   external set_verbose: t -> int -> unit = "caml_minisat_set_verbose"
 end
@@ -79,5 +81,9 @@ let value s lit = match Raw.value s lit with
   | 0 -> V_undef
   | -1 -> V_false
   | _ -> assert false
+
+let unsat_core s : assumptions =
+  let n = Raw.unsat_core_size s in
+  Array.init n (Raw.unsat_core_get s)
 
 let set_verbose = Raw.set_verbose
