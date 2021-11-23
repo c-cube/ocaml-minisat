@@ -11,7 +11,7 @@ build: [
 license: "BSD-2-clause"
 depends: [
   "ocaml" {>= "4.03" }
-  "dune" {>= "1.0"}
+  "dune" {>= "2.0"}
   "odoc" {with-doc}
 ]
 tags: [ "minisat" "solver" "SAT" ]
