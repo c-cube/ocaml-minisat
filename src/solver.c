@@ -28,7 +28,7 @@ OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWA
 //=================================================================================================
 // Debug:
 
-//#define VERBOSEDEBUG
+// #define VERBOSEDEBUG
 
 // For derivation output (verbosity level 2)
 #define L_IND    "%-*d"
@@ -80,6 +80,7 @@ struct clause_t
 
 static inline int   clause_size       (clause* c)          { return c->size_learnt >> 1; }
 static inline lit*  clause_begin      (clause* c)          { return c->lits; }
+static inline lit*  clause_end(clause* c)                  { return c->lits + clause_size(c); }
 static inline int   clause_learnt     (clause* c)          { return c->size_learnt & 1; }
 static inline float clause_activity   (clause* c)          { return *((float*)&c->lits[c->size_learnt>>1]); }
 static inline void  clause_setactivity(clause* c, float a) { *((float*)&c->lits[c->size_learnt>>1]) = a; }
@@ -673,29 +674,49 @@ static void solver_analyze_final(solver* s, lit p) {
   veci* tagged = &s->tagged;
 
 #ifdef VERBOSEDEBUG
-  printf("analyze final p=%d\n", p);
+  printf("analyze final p="L_LIT"\n", L_lit(p));
 #endif
 
-  veci_push(&s->tagged, p);
-  tags[p] = l_True;
+  veci_push(tagged, lit_var(p));
+  tags[lit_var(p)] = l_True;
 
   for (int i = s->qtail - 1; i >= 0; --i) {
-    printf("analyze final: look at %d\n", trail[i]);
-    if (tags[lit_var(trail[i])] == l_True) {
-      veci_push(&s->unsat_core, trail[i]); // into unsat core
+    lit q = trail[i];
 #ifdef VERBOSEDEBUG
-      printf("analyze final: in core %d\n", trail[i]);
+    printf("analyze final: look at "L_LIT"\n", L_lit(q));
+#endif
+    if (tags[lit_var(q)] == l_True) {
+      if (lit_var(q) == lit_var(p) ||
+          reasons[lit_var(q)] == 0) {
+        // decision or `p`: part of unsat core
+        veci_push(&s->unsat_core, lit_var(p) == lit_var(q) ? p : q); // into unsat core
+      }
+#ifdef VERBOSEDEBUG
+      printf("analyze final: add to core "L_LIT"\n", L_lit(q));
 #endif
 
-      clause* c = reasons[lit_var(trail[i])];
-      if (c != 0 && !clause_is_lit(c)) {
-        // propagation, mark other lits of the clause
+      clause* c = reasons[lit_var(q)];
+      //printf("clause: is-null: %d, is-lit %d\n", c==0, clause_is_lit(c));
+      if (c == 0) continue;
+      if (clause_is_lit(c)) {
+        // binary clause
+        lit r = clause_read_lit(c);
+        //printf("resolve with clause: "L_LIT"\n", L_lit(r));
+        if (tags[lit_var(r)] == l_Undef) {
+          tags[lit_var(r)] = l_True;
+          veci_push(tagged, lit_var(r));
+        }
+
+      } else {
         lits = clause_begin(c);
-        for (int j = 1; j < clause_size(c); ++j) {
-          lit q = lits[j];
-          if (tags[lit_var(q)] == l_Undef) {
-            tags[lit_var(q)] = l_True;
-            veci_push(tagged, lit_var(q));
+        //printf("resolve with clause: "); printlits(lits, lits+clause_size(c)); printf("\n");
+        // propagation, mark other lits of the clause
+        for (int j = 0; j < clause_size(c); ++j) {
+          lit r = lits[j];
+          //printf("resolve with "L_LIT"\n", L_lit(r));
+          if (tags[lit_var(r)] == l_Undef) {
+            tags[lit_var(r)] = l_True;
+            veci_push(tagged, lit_var(r));
           }
         }
       }
@@ -708,7 +729,6 @@ static void solver_analyze_final(solver* s, lit p) {
   }
   veci_resize(&s->tagged, 0);
 }
-
 
 clause* solver_propagate(solver* s)
 {
@@ -1121,6 +1141,7 @@ bool   solver_solve(solver* s, lit* begin, lit* end)
     lbool   status        = l_Undef;
     lbool*  values        = s->assigns;
     lit*    i;
+    clause* confl;
 
     veci_resize(&s->unsat_core, 0);
 
@@ -1131,11 +1152,19 @@ bool   solver_solve(solver* s, lit* begin, lit* end)
             break;
         case 0: /* l_Undef */
             assume(s, *i);
-            if (solver_propagate(s) == NULL)
+            if ((confl = solver_propagate(s)) == NULL)
                 break;
-            /* fallthrough  with latest literal propagated */
-            *i = s->trail[s->qtail-1];
+#ifdef VERBOSEDEBUG
+            printf("unsat from conflict "); printlits(clause_begin(confl), clause_end(confl));
+            printf("\n");
+#endif
+            solver_analyze(s, confl, &s->unsat_core);
+            solver_canceluntil(s, 0);
+            return false;
         case -1: /* l_False */
+#ifdef VERBOSEDEBUG
+            printf("unsat from assumptions on "L_LIT"\n", L_lit(*i));
+#endif
             solver_analyze_final(s, *i);
             solver_canceluntil(s, 0);
             return false;
