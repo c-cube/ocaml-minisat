@@ -22,6 +22,10 @@ print_endline "ok!";;
 print_endline "should fail...";;
 try Minisat.solve ~assumptions:[|l3|] s; assert false
 with Minisat.Unsat -> print_endline "ok!";; (* should fail *)
+let core = Minisat.unsat_core s;;
+Printf.printf "core size: %d\n" (Array.length core);
+Array.iter (fun l -> Printf.printf " including %s\n" (Minisat.Lit.to_string l)) core;;
+assert (core = [|l3|]);;
 print_endline "should succeed...";;
 Minisat.solve s;; (* should not fail *)
 l3, Minisat.value s l3, Minisat.value s (Minisat.Lit.neg l3);;

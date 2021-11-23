@@ -665,6 +665,50 @@ static void solver_analyze(solver* s, clause* c, veci* learnt)
 #endif
 }
 
+static void solver_analyze_final(solver* s, lit p) {
+  lbool* tags = s->tags;
+  lit* trail = s->trail;
+  lit* lits;
+  clause** reasons = s->reasons;
+  veci* tagged = &s->tagged;
+
+#ifdef VERBOSEDEBUG
+  printf("analyze final p=%d\n", p);
+#endif
+
+  veci_push(&s->tagged, p);
+  tags[p] = l_True;
+
+  for (int i = s->qtail - 1; i >= 0; --i) {
+    printf("analyze final: look at %d\n", trail[i]);
+    if (tags[lit_var(trail[i])] == l_True) {
+      veci_push(&s->unsat_core, trail[i]); // into unsat core
+#ifdef VERBOSEDEBUG
+      printf("analyze final: in core %d\n", trail[i]);
+#endif
+
+      clause* c = reasons[lit_var(trail[i])];
+      if (c != 0 && !clause_is_lit(c)) {
+        // propagation, mark other lits of the clause
+        lits = clause_begin(c);
+        for (int j = 1; j < clause_size(c); ++j) {
+          lit q = lits[j];
+          if (tags[lit_var(q)] == l_Undef) {
+            tags[lit_var(q)] = l_True;
+            veci_push(tagged, lit_var(q));
+          }
+        }
+      }
+    }
+  }
+
+  // clear tags
+  for (int i=0; i < veci_size(tagged); ++i) {
+    tags[tagged->ptr[i]] = l_Undef;
+  }
+  veci_resize(&s->tagged, 0);
+}
+
 
 clause* solver_propagate(solver* s)
 {
@@ -809,8 +853,14 @@ static lbool solver_search(solver* s, int nof_conflicts, int nof_learnts)
 #endif
             s->stats.conflicts++; conflictC++;
             if (solver_dlevel(s) == s->root_level){
+              printf("unsat by conflict\n");
+                // copy clause into unsat_core
+                veci_resize(&s->unsat_core, 0);
+                for (int i=0; i<learnt_clause.size; ++i) {
+                  printf("lit: %d\n", learnt_clause.ptr[i]);
+                  veci_push(&s->unsat_core, learnt_clause.ptr[i]);
+                }
                 veci_delete(&learnt_clause);
-                // FIXME: compute unsat core
                 return l_False;
             }
 
@@ -1083,9 +1133,10 @@ bool   solver_solve(solver* s, lit* begin, lit* end)
             assume(s, *i);
             if (solver_propagate(s) == NULL)
                 break;
-            /* fallthrough */
+            /* fallthrough  with latest literal propagated */
+            *i = s->trail[s->qtail-1];
         case -1: /* l_False */
-            // FIXME: compute unsat core
+            solver_analyze_final(s, *i);
             solver_canceluntil(s, 0);
             return false;
         }
