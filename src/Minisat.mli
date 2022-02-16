@@ -103,6 +103,8 @@ type value =
   | V_false
 
 val value : t -> Lit.t -> value
-(** Returns the assignation of a literal in the solver state provided. *)
+(** Returns the assignation of a literal in the solver state.
+    This must only be called after a call to {!solve} that returned successfully
+    without raising {!Unsat}. *)
 
 val set_verbose: t -> int -> unit
