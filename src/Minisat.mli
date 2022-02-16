@@ -66,22 +66,36 @@ module Raw : sig
 end
 
 val create : unit -> t
+(** Create a fresh solver state. *)
 
 exception Unsat
 
 val add_clause_l : t -> Lit.t list -> unit
-(** @raise Unsat if the problem is unsat *)
+(** Add a clause (as a list of literals) to the solver state.
+
+    @raise Unsat if the problem is unsat. *)
 
 val add_clause_a : t -> Lit.t array -> unit
-(** @raise Unsat if the problem is unsat *)
+(** Add a clause (as an array of literals) to the solver state.
+
+    @raise Unsat if the problem is unsat. *)
 
 val pp_clause : Lit.t list printer
 
 val simplify : t -> unit
-(** @raise Unsat if the problem is unsat *)
+(** Perform simplifications on the solver state. Speeds up later manipulations
+    on the solver state, e.g. calls to [solve].
+
+    @raise Unsat if the problem is unsat. *)
 
 val solve : ?assumptions:assumptions -> t -> unit
-(** @raise Unsat if the problem is unsat *)
+(** Check whether the current solver state is satisfiable, additionally assuming
+    that the literals provided in [assumptions] are assigned to true. After
+    [solve] terminates (raising [Unsat] or not), the solver state is unchanged:
+    the literals in [assumptions] are only considered to be true for the duration
+    of the query.
+
+    @raise Unsat if the problem is unsat. *)
 
 type value =
   | V_undef
@@ -89,5 +103,6 @@ type value =
   | V_false
 
 val value : t -> Lit.t -> value
+(** Returns the assignation of a literal in the solver state provided. *)
 
 val set_verbose: t -> int -> unit
