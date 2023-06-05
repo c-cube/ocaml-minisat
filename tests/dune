@@ -1,8 +1,12 @@
 
-(executable
-  (name test1)
+(executables
+  (names test1 phole)
   (libraries minisat))
 
 (rule
   (alias runtest)
   (action (run ./test1.exe)))
+
+(rule
+  (alias runtest)
+  (action (run ./phole.exe 6)))
