@@ -3,6 +3,10 @@
   (name minisat)
   (public_name minisat)
   (flags :standard -safe-string)
-  ;(ocamlopt_flags :standard -O3 -bin-annot -unbox-closures -unbox-closures-factor 20)
-  (c_flags -fPIC -std=c99)
-  (c_names libminisat_stubs solver))
+  (c_library_flags :standard -lstdc++)
+  (foreign_stubs
+   (language cxx)
+   ;(ocamlopt_flags :standard -O3 -bin-annot -unbox-closures -unbox-closures-factor 20)
+   (include_dirs minisat-cpp/ minisat-cpp/mtl minisat-cpp/core)
+   (flags :standard -fPIC -std=c++11)
+   (names libminisat_stubs Solver)))

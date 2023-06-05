@@ -55,7 +55,6 @@ module Raw : sig
   external nvars : t -> int = "caml_minisat_nvars" [@@noalloc]
   external nclauses : t -> int = "caml_minisat_nclauses" [@@noalloc]
   external nconflicts : t -> int = "caml_minisat_nconflicts" [@@noalloc]
-  external set_nvars : t -> int -> unit = "caml_minisat_set_nvars" [@@noalloc]
   external value : t -> Lit.t -> int = "caml_minisat_value" [@@noalloc]
   external set_verbose : t -> int -> unit = "caml_minisat_set_verbose"
 end

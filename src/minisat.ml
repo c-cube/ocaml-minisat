@@ -8,13 +8,13 @@ module Lit = struct
 
   let make n =
     assert (n > 0);
-    n + n
+    n + n + 1
 
   let neg n = n lxor 1
   let abs n = n land (max_int - 1)
 
   let sign n =
-    if n land 1 = 0 then
+    if n land 1 = 1 then
       true
     else
       false
@@ -45,7 +45,6 @@ module Raw = struct
   external nvars : t -> int = "caml_minisat_nvars" [@@noalloc]
   external nclauses : t -> int = "caml_minisat_nclauses" [@@noalloc]
   external nconflicts : t -> int = "caml_minisat_nconflicts" [@@noalloc]
-  external set_nvars : t -> int -> unit = "caml_minisat_set_nvars" [@@noalloc]
   external value : t -> Lit.t -> int = "caml_minisat_value" [@@noalloc]
   external set_verbose : t -> int -> unit = "caml_minisat_set_verbose"
 end

@@ -1,3 +1,0 @@
-
-CompileFlags:
-  Add: [--std=c99, -I, src/minisat/, -I, /usr/lib/ocaml/]

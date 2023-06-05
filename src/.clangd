@@ -1,0 +1,9 @@
+
+
+CompileFlags:
+  Add: [--std=c++11,
+        -I, minisat-cpp,
+        -I, minisat-cpp/core,
+        -I, minisat-cpp/utils,
+        -I, minisat-cpp/mtl,
+        -I, /usr/lib/ocaml/]

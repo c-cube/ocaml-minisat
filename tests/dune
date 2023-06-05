@@ -3,6 +3,6 @@
   (name test1)
   (libraries minisat))
 
-(alias
-  (name runtest)
+(rule
+  (alias runtest)
   (action (run ./test1.exe)))
