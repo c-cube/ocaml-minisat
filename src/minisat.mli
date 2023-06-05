@@ -58,6 +58,7 @@ module Raw : sig
   external value : t -> Lit.t -> int = "caml_minisat_value" [@@noalloc]
   external set_verbose : t -> int -> unit = "caml_minisat_set_verbose"
   external okay : t -> bool = "caml_minisat_okay" [@@noalloc]
+  external core : t -> Lit.t array = "caml_minisat_core"
 end
 
 val create : unit -> t
@@ -111,5 +112,11 @@ val value : t -> Lit.t -> value
 (** Returns the assignation of a literal in the solver state.
     This must only be called after a call to {!solve} that returned successfully
     without raising {!Unsat}. *)
+
+val unsat_core : t -> Lit.t array
+(** Returns the subset of assumptions of a solver that returned "unsat"
+    when called with [solve ~assumptions s].
+    @since NEXT_RELEASE
+*)
 
 val set_verbose : t -> int -> unit

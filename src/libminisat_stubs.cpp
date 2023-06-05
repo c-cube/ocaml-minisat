@@ -140,6 +140,24 @@ CAMLprim value caml_minisat_value(value block, value v_lit) {
   CAMLreturn(Val_int(ret));
 }
 
+
+CAMLprim value caml_minisat_core(value block) {
+  CAMLparam1(block);
+  CAMLlocal1(res);
+
+  Solver *s = get_solver(block);
+
+  vec<Lit>& conflict = s->conflict;
+  res = caml_alloc(conflict.size(), 0 /* tag for array */);
+
+  for (int i=0; i<conflict.size(); ++i) {
+    Lit lit = !conflict[i]; // we want the core, not conflict
+    Store_field(res, i, Val_int(Minisat::toInt(lit)));
+  }
+
+  CAMLreturn(res);
+}
+
 CAMLprim value caml_minisat_set_verbose(value block, value v_lev) {
   CAMLparam1(block);
 

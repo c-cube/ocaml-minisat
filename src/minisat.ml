@@ -48,6 +48,7 @@ module Raw = struct
   external value : t -> Lit.t -> int = "caml_minisat_value" [@@noalloc]
   external set_verbose : t -> int -> unit = "caml_minisat_set_verbose"
   external okay : t -> bool = "caml_minisat_okay" [@@noalloc]
+  external core : t -> Lit.t array = "caml_minisat_core"
 end
 
 let create () =
@@ -80,6 +81,8 @@ let simplify s = Raw.simplify s |> check_ret_
 let solve ?(assumptions = [||]) s =
   simplify s;
   Raw.solve s assumptions |> check_ret_
+
+let unsat_core = Raw.core
 
 type value =
   | V_undef
