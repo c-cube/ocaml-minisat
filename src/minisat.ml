@@ -49,6 +49,7 @@ module Raw = struct
   external set_verbose : t -> int -> unit = "caml_minisat_set_verbose"
   external okay : t -> bool = "caml_minisat_okay" [@@noalloc]
   external core : t -> Lit.t array = "caml_minisat_core"
+  external to_dimacs : t -> string -> unit = "caml_minisat_to_dimacs"
 end
 
 let create () =
@@ -104,3 +105,7 @@ let value s lit =
   | _ -> assert false
 
 let set_verbose = Raw.set_verbose
+
+module Debug = struct
+  let to_dimacs_file = Raw.to_dimacs
+end

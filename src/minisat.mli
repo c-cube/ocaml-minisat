@@ -59,6 +59,7 @@ module Raw : sig
   external set_verbose : t -> int -> unit = "caml_minisat_set_verbose"
   external okay : t -> bool = "caml_minisat_okay" [@@noalloc]
   external core : t -> Lit.t array = "caml_minisat_core"
+  external to_dimacs : t -> string -> unit = "caml_minisat_to_dimacs"
 end
 
 val create : unit -> t
@@ -120,3 +121,10 @@ val unsat_core : t -> Lit.t array
 *)
 
 val set_verbose : t -> int -> unit
+(** Verbose mode. *)
+
+module Debug : sig
+  val to_dimacs_file : t -> string -> unit
+  (** [to_dimacs_file solver path] writes the solver's set of clauses into the
+    file at [path] *)
+end
