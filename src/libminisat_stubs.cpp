@@ -209,4 +209,19 @@ CAMLprim value caml_minisat_nconflicts(value block) {
   CAMLreturn(Val_int(s->nLearnts()));
 }
 
+CAMLprim value caml_minisat_interrupt(value block) {
+  CAMLparam1(block);
+  Solver *s = get_solver(block);
+  s->interrupt();
+  CAMLreturn(Val_unit);
+}
+
+
+CAMLprim value caml_minisat_clear_interrupt(value block) {
+  CAMLparam1(block);
+  Solver *s = get_solver(block);
+  s->clearInterrupt();
+  CAMLreturn(Val_unit);
+}
+
 } // extern "C"
