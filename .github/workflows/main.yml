@@ -11,8 +11,8 @@ jobs:
           - windows-latest
         ocaml-compiler:
           - 4.03.x
-          - 4.10.x
-          - 4.12.x
+          - 4.14.x
+          - 5.00.x
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
