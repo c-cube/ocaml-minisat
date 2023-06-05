@@ -40,28 +40,6 @@ end
 
 type assumptions = Lit.t array
 
-module Raw : sig
-  external create : unit -> t = "caml_minisat_new"
-  external delete : t -> unit = "caml_minisat_delete"
-
-  (* the [add_clause] functions return [false] if the clause
-     immediately makes the problem unsat *)
-
-  external add_clause_a : t -> Lit.t array -> bool = "caml_minisat_add_clause_a"
-    [@@noalloc]
-
-  external simplify : t -> bool = "caml_minisat_simplify" [@@noalloc]
-  external solve : t -> assumptions -> bool = "caml_minisat_solve"
-  external nvars : t -> int = "caml_minisat_nvars" [@@noalloc]
-  external nclauses : t -> int = "caml_minisat_nclauses" [@@noalloc]
-  external nconflicts : t -> int = "caml_minisat_nconflicts" [@@noalloc]
-  external value : t -> Lit.t -> int = "caml_minisat_value" [@@noalloc]
-  external set_verbose : t -> int -> unit = "caml_minisat_set_verbose"
-  external okay : t -> bool = "caml_minisat_okay" [@@noalloc]
-  external core : t -> Lit.t array = "caml_minisat_core"
-  external to_dimacs : t -> string -> unit = "caml_minisat_to_dimacs"
-end
-
 val create : unit -> t
 (** Create a fresh solver state. *)
 
