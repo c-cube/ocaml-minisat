@@ -2,7 +2,7 @@
 (library
   (name minisat)
   (public_name minisat)
-  (flags :standard -safe-string)
+  (flags :standard -safe-string -warn-error -a+8 -w +a-4-40)
   (c_library_flags :standard -lstdc++)
   (foreign_stubs
    (language cxx)

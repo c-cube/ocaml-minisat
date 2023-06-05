@@ -111,6 +111,9 @@ let value s lit =
 let set_verbose = Raw.set_verbose
 let interrupt = Raw.interrupt
 let clear_interrupt = Raw.clear_interrupt
+let n_clauses = Raw.nclauses
+let n_vars = Raw.nvars
+let n_conflicts = Raw.nconflicts
 
 module Debug = struct
   let to_dimacs_file = Raw.to_dimacs

@@ -109,6 +109,15 @@ val clear_interrupt : t -> unit
 (** Clear interrupt flag so that we can use the solver again.
     @since NEXT_RELEASE *)
 
+val n_clauses : t -> int
+(** @since NEXT_RELEASE *)
+
+val n_vars : t -> int
+(** @since NEXT_RELEASE *)
+
+val n_conflicts : t -> int
+(** @since NEXT_RELEASE *)
+
 module Debug : sig
   val to_dimacs_file : t -> string -> unit
   (** [to_dimacs_file solver path] writes the solver's set of clauses into the
