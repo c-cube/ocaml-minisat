@@ -80,7 +80,8 @@ CAMLprim value caml_minisat_solve(value block, value v_lits) {
   // build an array out of [v_lits]
   size_t lits_size = Wosize_val(v_lits);
 
-  vec<Lit> lits(lits_size);
+  vec<Lit> lits;
+  lits.capacity(lits_size);
   Solver *s = get_solver(block);
 
   for (size_t i = 0; i < lits_size; ++i) {
@@ -105,7 +106,8 @@ CAMLprim value caml_minisat_add_clause_a(value block, value v_lits) {
 
   Solver *s = get_solver(block);
 
-  vec<Lit> lits(lits_size);
+  vec<Lit> lits;
+  lits.capacity(lits_size);
   for (size_t i = 0; i < lits_size; ++i) {
     Lit lit = lit_of_int(Int_val(Field(v_lits, i)));
     ensureVar(*s, lit);
