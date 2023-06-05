@@ -57,10 +57,15 @@ module Raw : sig
   external nconflicts : t -> int = "caml_minisat_nconflicts" [@@noalloc]
   external value : t -> Lit.t -> int = "caml_minisat_value" [@@noalloc]
   external set_verbose : t -> int -> unit = "caml_minisat_set_verbose"
+  external okay : t -> bool = "caml_minisat_okay" [@@noalloc]
 end
 
 val create : unit -> t
 (** Create a fresh solver state. *)
+
+val okay : t -> bool
+(** [true] if the solver isn't known to be in an unsat state
+    @since NEXT_RELEASE *)
 
 exception Unsat
 

@@ -151,6 +151,13 @@ CAMLprim value caml_minisat_set_verbose(value block, value v_lev) {
   CAMLreturn(Val_unit);
 }
 
+CAMLprim value caml_minisat_okay(value block) {
+  CAMLparam1(block);
+
+  Solver *s = get_solver(block);
+  CAMLreturn(Val_bool(s->okay()));
+}
+
 CAMLprim value caml_minisat_nvars(value block) {
   CAMLparam1(block);
 

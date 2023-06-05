@@ -47,6 +47,7 @@ module Raw = struct
   external nconflicts : t -> int = "caml_minisat_nconflicts" [@@noalloc]
   external value : t -> Lit.t -> int = "caml_minisat_value" [@@noalloc]
   external set_verbose : t -> int -> unit = "caml_minisat_set_verbose"
+  external okay : t -> bool = "caml_minisat_okay" [@@noalloc]
 end
 
 let create () =
@@ -56,6 +57,7 @@ let create () =
 
 exception Unsat
 
+let okay = Raw.okay
 let check_ret_ b = if not b then raise Unsat
 let add_clause_a s a = Raw.add_clause_a s a |> check_ret_
 let add_clause_l s lits = add_clause_a s (Array.of_list lits)
