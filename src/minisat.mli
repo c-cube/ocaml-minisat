@@ -98,10 +98,10 @@ type value =
   | V_false
 
 val string_of_value : value -> string
-(** @since NEXT_RELEASE *)
+(** @since 0.5 *)
 
 val pp_value : value printer
-(** @since NEXT_RELEASE *)
+(** @since 0.5 *)
 
 val value : t -> Lit.t -> value
 (** Returns the assignation of a literal in the solver state.

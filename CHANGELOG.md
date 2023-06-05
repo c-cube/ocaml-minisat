@@ -1,3 +1,8 @@
+## 0.5
+
+- format C and OCaml code
+- add `pp_value` and `string_of_value`
+
 ## 0.4
 
 - move to github actions for CI
