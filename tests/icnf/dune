@@ -1,0 +1,23 @@
+
+(rule
+ (targets regression1.icnf.out)
+ (deps regression1.icnf)
+ (action (with-stdout-to %{targets}
+                         (run ../../examples/icnf-solve/icnf_solve.exe %{deps}))))
+
+
+(rule
+  (alias runtest)
+  (action (diff regression1.icnf.expected regression1.icnf.out)))
+
+
+(rule
+ (targets regression2.icnf.out)
+ (deps regression2.icnf)
+ (action (with-stdout-to %{targets}
+                         (run ../../examples/icnf-solve/icnf_solve.exe %{deps}))))
+
+
+(rule
+  (alias runtest)
+  (action (diff regression2.icnf.expected regression2.icnf.out)))
