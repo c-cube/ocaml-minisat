@@ -98,6 +98,11 @@ val value : t -> Lit.t -> value
     This must only be called after a call to {!solve} that returned successfully
     without raising {!Unsat}. *)
 
+val level : t -> Lit.t -> int
+(** Returns the assignment level for this literal, or [0] if there is none.
+    This really only makes sense if {!value} returns [V_true] or [V_false].
+    @since NEXT_RELEASE *)
+
 val unsat_core : t -> Lit.t array
 (** Returns the subset of assumptions of a solver that returned "unsat"
     when called with [solve ~assumptions s].

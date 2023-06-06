@@ -142,6 +142,18 @@ CAMLprim value caml_minisat_value(value block, value v_lit) {
   CAMLreturn(Val_int(ret));
 }
 
+CAMLprim value caml_minisat_level(value block, value v_lit) {
+  CAMLparam1(block);
+
+  Solver *s = get_solver(block);
+
+  Lit lit = lit_of_int(Int_val(v_lit));
+  int var = Minisat::var(lit);
+  int level = var > s->nVars() ? 0 : s->level(var);
+
+  CAMLreturn(Val_int(level));
+}
+
 CAMLprim value caml_minisat_core(value block) {
   CAMLparam1(block);
   CAMLlocal1(res);
