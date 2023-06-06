@@ -152,7 +152,7 @@ CAMLprim value caml_minisat_core(value block) {
   res = caml_alloc(conflict.size(), 0 /* tag for array */);
 
   for (int i = 0; i < conflict.size(); ++i) {
-    Lit lit = !conflict[i]; // we want the core, not conflict
+    Lit lit = ~conflict[i]; // we want the core, not conflict
     Store_field(res, i, Val_int(Minisat::toInt(lit)));
   }
 
