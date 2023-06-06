@@ -12,6 +12,8 @@ module Lit = struct
 
   let neg n = n lxor 1
   let abs n = n land (max_int - 1)
+  let equal : t -> t -> bool = ( = )
+  let compare : t -> t -> int = compare
 
   let sign n =
     if n land 1 = 1 then
