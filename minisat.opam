@@ -13,6 +13,7 @@ depends: [
   "ocaml" {>= "4.03" }
   "dune" {>= "1.0"}
   "odoc" {with-doc}
+  "containers" {>= "3.0" & with-test}
 ]
 tags: [ "minisat" "solver" "SAT" ]
 homepage: "https://github.com/c-cube/ocaml-minisat/"
