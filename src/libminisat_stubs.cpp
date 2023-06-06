@@ -17,7 +17,7 @@ using namespace Minisat;
 /// Make sure `lit` is valid inside the solver.
 void ensureVar(Solver &s, Lit lit) {
   Var v = Minisat::var(lit);
-  while (v > s.nVars()) {
+  while (v >= s.nVars()) {
     s.newVar(true, true);
   }
 }
