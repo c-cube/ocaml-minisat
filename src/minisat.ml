@@ -86,11 +86,7 @@ let pp_clause out l =
   Format.fprintf out "@]]"
 
 let simplify s = Raw.simplify s |> check_ret_
-
-let solve ?(assumptions = [||]) s =
-  simplify s;
-  Raw.solve s assumptions |> check_ret_
-
+let solve ?(assumptions = [||]) s = Raw.solve s assumptions |> check_ret_
 let unsat_core = Raw.core
 
 type value =
