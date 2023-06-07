@@ -40,6 +40,9 @@ module Raw = struct
   external create : unit -> t = "caml_minisat_new"
   external delete : t -> unit = "caml_minisat_delete"
 
+  external ensure_var : t -> Lit.t -> unit = "caml_minisat_ensure_var"
+    [@@noalloc]
+
   external add_clause_a : t -> Lit.t array -> bool = "caml_minisat_add_clause_a"
     [@@noalloc]
 
@@ -69,6 +72,7 @@ exception Unsat
 
 let okay = Raw.okay
 let check_ret_ b = if not b then raise Unsat
+let ensure_lit_exists s l = Raw.ensure_var s l
 let add_clause_a s a = Raw.add_clause_a s a |> check_ret_
 let add_clause_l s lits = add_clause_a s (Array.of_list lits)
 

@@ -58,6 +58,10 @@ val okay : t -> bool
 
 exception Unsat
 
+val ensure_lit_exists : t -> Lit.t -> unit
+(** Make sure the solver decides this literal.
+    @since NEXT_RELEASE *)
+
 val add_clause_l : t -> Lit.t list -> unit
 (** Add a clause (as a list of literals) to the solver state.
 

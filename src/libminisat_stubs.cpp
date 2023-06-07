@@ -98,6 +98,15 @@ CAMLprim value caml_minisat_solve(value block, value v_lits) {
   CAMLreturn(Val_bool(res));
 }
 
+CAMLprim value caml_minisat_ensure_var(value block, value v_lit) {
+  CAMLparam2(block, v_lit);
+
+  Solver *s = get_solver(block);
+  Lit lit = lit_of_int(Int_val(v_lit));
+  ensureVar(*s, lit);
+  CAMLreturn(Val_unit);
+}
+
 CAMLprim value caml_minisat_add_clause_a(value block, value v_lits) {
   CAMLparam2(block, v_lits);
 
