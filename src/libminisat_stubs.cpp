@@ -128,6 +128,19 @@ CAMLprim value caml_minisat_add_clause_a(value block, value v_lits) {
   CAMLreturn(Val_bool(res));
 }
 
+// convert lbool to int
+inline int convert_value(lbool cur_val) {
+  if (cur_val == l_Undef)
+    return 0;
+  else if (cur_val == l_True)
+    return 1;
+  else if (cur_val == l_False)
+    return -1;
+  else
+    return -2;
+
+}
+
 CAMLprim value caml_minisat_value(value block, value v_lit) {
   CAMLparam1(block);
 
@@ -135,23 +148,13 @@ CAMLprim value caml_minisat_value(value block, value v_lit) {
 
   Lit lit = lit_of_int(Int_val(v_lit));
   int var = Minisat::var(lit);
-  lbool cur_val = var > s->nVars() ? l_Undef : s->value(lit);
+  lbool cur_val = var > s->nVars() ? l_Undef : s->modelValue(lit);
 
-  /* convert lbool to int */
-  int ret;
-  if (cur_val == l_Undef)
-    ret = 0;
-  else if (cur_val == l_True)
-    ret = 1;
-  else if (cur_val == l_False)
-    ret = -1;
-  else
-    ret = -2;
-
+  int ret = convert_value(cur_val);
   CAMLreturn(Val_int(ret));
 }
 
-CAMLprim value caml_minisat_level(value block, value v_lit) {
+CAMLprim value caml_minisat_value_level_0(value block, value v_lit) {
   CAMLparam1(block);
 
   Solver *s = get_solver(block);
@@ -159,8 +162,10 @@ CAMLprim value caml_minisat_level(value block, value v_lit) {
   Lit lit = lit_of_int(Int_val(v_lit));
   int var = Minisat::var(lit);
   int level = var > s->nVars() ? 0 : s->level(var);
+  lbool cur_val = (var > s->nVars() || level != 0) ? l_Undef : s->value(lit);
+  int res = convert_value(cur_val);
 
-  CAMLreturn(Val_int(level));
+  CAMLreturn(Val_int(res));
 }
 
 CAMLprim value caml_minisat_core(value block) {

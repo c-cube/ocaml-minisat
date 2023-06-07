@@ -52,7 +52,10 @@ module Raw = struct
   external nclauses : t -> int = "caml_minisat_nclauses" [@@noalloc]
   external nconflicts : t -> int = "caml_minisat_nconflicts" [@@noalloc]
   external value : t -> Lit.t -> int = "caml_minisat_value" [@@noalloc]
-  external level : t -> Lit.t -> int = "caml_minisat_level" [@@noalloc]
+
+  external value_level_0 : t -> Lit.t -> int = "caml_minisat_value_level_0"
+    [@@noalloc]
+
   external set_verbose : t -> int -> unit = "caml_minisat_set_verbose"
   external okay : t -> bool = "caml_minisat_okay" [@@noalloc]
   external core : t -> Lit.t array = "caml_minisat_core"
@@ -105,14 +108,14 @@ let string_of_value = function
 
 let pp_value out x = Format.pp_print_string out (string_of_value x)
 
-let[@inline] value s lit =
-  match Raw.value s lit with
+let[@inline] conv_value_ = function
   | 1 -> V_true
   | 0 -> V_undef
   | -1 -> V_false
   | _ -> assert false
 
-let level = Raw.level
+let[@inline] value s lit = conv_value_ (Raw.value s lit)
+let[@inline] value_at_level_0 s lit = conv_value_ (Raw.value_level_0 s lit)
 let set_verbose = Raw.set_verbose
 let interrupt = Raw.interrupt
 let clear_interrupt = Raw.clear_interrupt

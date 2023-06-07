@@ -105,9 +105,11 @@ val value : t -> Lit.t -> value
     This must only be called after a call to {!solve} that returned successfully
     without raising {!Unsat}. *)
 
-val level : t -> Lit.t -> int
-(** Returns the assignment level for this literal, or [0] if there is none.
-    This really only makes sense if {!value} returns [V_true] or [V_false].
+val value_at_level_0 : t -> Lit.t -> value
+(** Returns the assignment level for this literal at level 0, if assigned
+    there, or [V_undef].
+    If [lit] is not assigned at level 0, this returns [V_undef] even when the
+    literal has a value in the current model.
     @since NEXT_RELEASE *)
 
 val unsat_core : t -> Lit.t array
