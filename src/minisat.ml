@@ -6,22 +6,23 @@ type 'a printer = Format.formatter -> 'a -> unit
 module Lit = struct
   type t = int
 
-  let make n =
+  let[@inline] make n =
     assert (n > 0);
     n + n + 1
 
-  let neg n = n lxor 1
-  let abs n = n land (max_int - 1)
+  let[@inline] neg n = n lxor 1
+  let[@inline] abs n = n land (max_int - 1)
   let equal : t -> t -> bool = ( = )
   let compare : t -> t -> int = compare
+  let[@inline] hash (x : t) : int = Hashtbl.hash x
 
-  let sign n =
+  let[@inline] sign n =
     if n land 1 = 1 then
       true
     else
       false
 
-  let to_int n = n lsr 1
+  let[@inline] to_int n = n lsr 1
 
   let to_string x =
     (if sign x then

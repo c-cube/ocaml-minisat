@@ -20,6 +20,9 @@ module Lit : sig
   val compare : t -> t -> int
   (** @since NEXT_RELEASE *)
 
+  val hash : t -> int
+  (** @since NEXT_RELEASE *)
+
   val make : int -> t
   (** [make n] creates the literal whose index is [n].
       {b NOTE} [n] must be strictly positive. Use {!neg} to obtain
