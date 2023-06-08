@@ -35,6 +35,10 @@ module Lit : sig
   val abs : t -> t
   (** Absolute value (removes negation if any). *)
 
+  val apply_sign : bool -> t -> t
+  (** [apply_sign true lit] is [lit]; [apply_sign false lit] is [neg lit] 
+      @since NEXT_RELEASE *)
+
   val sign : t -> bool
   (** Sign: [true] if the literal is positive, [false] for a negated literal.
       Invariants:

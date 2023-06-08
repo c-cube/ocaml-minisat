@@ -16,6 +16,12 @@ module Lit = struct
   let compare : t -> t -> int = compare
   let[@inline] hash (x : t) : int = Hashtbl.hash x
 
+  let[@inline] apply_sign sign t =
+    if sign then
+      t
+    else
+      neg t
+
   let[@inline] sign n =
     if n land 1 = 1 then
       true
