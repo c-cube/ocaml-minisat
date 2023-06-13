@@ -15,13 +15,13 @@ module Lit : sig
       integers. *)
 
   val equal : t -> t -> bool
-  (** @since NEXT_RELEASE *)
+  (** @since 0.6 *)
 
   val compare : t -> t -> int
-  (** @since NEXT_RELEASE *)
+  (** @since 0.6 *)
 
   val hash : t -> int
-  (** @since NEXT_RELEASE *)
+  (** @since 0.6 *)
 
   val make : int -> t
   (** [make n] creates the literal whose index is [n].
@@ -37,7 +37,7 @@ module Lit : sig
 
   val apply_sign : bool -> t -> t
   (** [apply_sign true lit] is [lit]; [apply_sign false lit] is [neg lit] 
-      @since NEXT_RELEASE *)
+      @since 0.6 *)
 
   val sign : t -> bool
   (** Sign: [true] if the literal is positive, [false] for a negated literal.
@@ -58,13 +58,13 @@ val create : unit -> t
 
 val okay : t -> bool
 (** [true] if the solver isn't known to be in an unsat state
-    @since NEXT_RELEASE *)
+    @since 0.6 *)
 
 exception Unsat
 
 val ensure_lit_exists : t -> Lit.t -> unit
 (** Make sure the solver decides this literal.
-    @since NEXT_RELEASE *)
+    @since 0.6 *)
 
 val add_clause_l : t -> Lit.t list -> unit
 (** Add a clause (as a list of literals) to the solver state.
@@ -114,12 +114,12 @@ val value_at_level_0 : t -> Lit.t -> value
     there, or [V_undef].
     If [lit] is not assigned at level 0, this returns [V_undef] even when the
     literal has a value in the current model.
-    @since NEXT_RELEASE *)
+    @since 0.6 *)
 
 val unsat_core : t -> Lit.t array
 (** Returns the subset of assumptions of a solver that returned "unsat"
     when called with [solve ~assumptions s].
-    @since NEXT_RELEASE
+    @since 0.6
 *)
 
 val set_verbose : t -> int -> unit
@@ -127,24 +127,24 @@ val set_verbose : t -> int -> unit
 
 val interrupt : t -> unit
 (** Interrupt the solver, typically from another thread.
-    @since NEXT_RELEASE *)
+    @since 0.6 *)
 
 val clear_interrupt : t -> unit
 (** Clear interrupt flag so that we can use the solver again.
-    @since NEXT_RELEASE *)
+    @since 0.6 *)
 
 val n_clauses : t -> int
-(** @since NEXT_RELEASE *)
+(** @since 0.6 *)
 
 val n_vars : t -> int
-(** @since NEXT_RELEASE *)
+(** @since 0.6 *)
 
 val n_conflicts : t -> int
-(** @since NEXT_RELEASE *)
+(** @since 0.6 *)
 
 module Debug : sig
   val to_dimacs_file : t -> string -> unit
   (** [to_dimacs_file solver path] writes the solver's set of clauses into the
     file at [path].
-    @since NEXT_RELEASE *)
+    @since 0.6 *)
 end

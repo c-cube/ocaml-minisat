@@ -1,3 +1,14 @@
+## 0.6
+
+- migrate from minisat-c 1.14 to minisat 2.2 (in C++); refactor it to build with C++11
+
+- add `Lit.{apply_sign,hash,equal,compare}`
+- add `ensure_lit_exists`
+- do not call `simplify` implicitly before `solve`
+- add `value_at_level_0`
+- add `unsat_core`
+- add `okay`
+
 ## 0.5
 
 - format C and OCaml code
