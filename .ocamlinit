@@ -1,5 +1,0 @@
-#directory "_build/src";;
-#load "minisat.cma";;
-
-let s = Minisat.create();;
-Minisat.set_verbose s 4;;
