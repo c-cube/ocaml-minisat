@@ -142,7 +142,7 @@ inline int convert_value(lbool cur_val) {
 }
 
 CAMLprim value caml_minisat_value(value block, value v_lit) {
-  CAMLparam1(block);
+  CAMLparam2(block, v_lit);
 
   Solver *s = get_solver(block);
 
@@ -155,7 +155,7 @@ CAMLprim value caml_minisat_value(value block, value v_lit) {
 }
 
 CAMLprim value caml_minisat_value_level_0(value block, value v_lit) {
-  CAMLparam1(block);
+  CAMLparam2(block, v_lit);
 
   Solver *s = get_solver(block);
 
@@ -186,7 +186,7 @@ CAMLprim value caml_minisat_core(value block) {
 }
 
 CAMLprim value caml_minisat_set_verbose(value block, value v_lev) {
-  CAMLparam1(block);
+  CAMLparam2(block, v_lev);
 
   int lev = Int_val(v_lev);
 
